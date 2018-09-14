@@ -5,6 +5,7 @@ import EventList from '../EventList/EventList';
 import EventForm from '../EventForm/EventForm';
 const { Column } = Grid;
 
+// Mock data for events
 const events = [
   {
     id: '1',
@@ -63,6 +64,7 @@ class EventDashboard extends Component {
     selectedEvent: null
   }
 
+  // opens EventForm when clicked and sets selectedEvent to null
   handleFormOpen = () => {
     this.setState({
       selectedEvent: null,
@@ -70,28 +72,52 @@ class EventDashboard extends Component {
     });
   }
 
+  // closes EventForm
   handleCancel = () => {
     this.setState({
       isOpen: false
     });
   }
 
+  /**
+   * Creates a new event.
+   * @param {Object} newEvent - Event object holding information about the event.
+   * @param {string} newEvent.id - The id of the event.
+   * @param {string} newEvent.title - The title of the event.
+   * @param {string} newEvent.date - The date of the event.
+   * @param {string} newEvent.hostPhotoURL - The photo of the Host that posted the event.
+   * @param {string} newEvent.city - The city of the event.
+   * @param {string} newEvent.venue - The venue of the event.
+   * @param {string} newEvent.hostedBy - Who will be hosting this event.
+   */
   handleCreateEvent = (newEvent) => {
+    // Creates a unique id for the event. (This will be replaced by Firestore in the future)
     newEvent.id = cuid();
+    // Sets the photo URL for the host of the event.
     newEvent.hostPhotoURL = '/assets/user.png';
+    // Updates the new array of events and adds the newEvent
     const updatedEvents = [...this.state.events, newEvent];
+    // Updates the component state to update the events array and closes the EventForm
     this.setState({
       events: updatedEvents,
       isOpen: false
     });
   }
 
+  /**
+   * Updates an existing event
+   * @param {Object} updatedEvent - Updated event object
+   */
   handleUpdateEvent = (updatedEvent) => {
+    // Sets the state to update the event that was currently edited.
     this.setState({
       events: this.state.events.map(event => {
+        // Checks if the id is the same as the updatedEvent id
         if (event.id === updatedEvent.id) {
+          // Returns the updated event
           return { ...updatedEvent }
         } else {
+          // Return the unedited event
           return event;
         }
       }),
@@ -100,7 +126,13 @@ class EventDashboard extends Component {
     });
   }
 
+  /**
+   * Opens an existing event on the EventForm and sets
+   * the selectedEvent to the event that was clicked on
+   * @param {Object} eventToOpen - An object with the event to open
+   */
   handleOpenEvent = (eventToOpen) => () => {
+    // Sets the selectedEvent to the event to open. 
     this.setState({
       selectedEvent: eventToOpen,
       isOpen: true
@@ -108,6 +140,7 @@ class EventDashboard extends Component {
   }
 
   render () {
+    // Destructures and proprerties from the state.
     const { selectedEvent } = this.state;
     return (
       <Grid>
