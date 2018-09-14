@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 
+// Empty event fields 
 const emptyEvent = {
   title: '',
   date: '',
@@ -15,7 +16,9 @@ class EventForm extends Component {
   }
 
   componentDidMount() {
+    // checks if the selectedEvent object is not equal to null
     if (this.props.selectedEvent !== null) {
+      // sets the state event to the selectedEvent
       this.setState({
         event: this.props.selectedEvent
       });
@@ -23,6 +26,12 @@ class EventForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    /* 
+      If the props being passed down has changed then set the
+      current event in the state to the selectedEvent, if the
+      selectedEvent is null then defaults to the emptyEvent 
+      object
+    */
     if (nextProps.selectedEvent !== this.props.selectedEvent) {
       this.setState({
         event: nextProps.selectedEvent || emptyEvent
@@ -30,18 +39,26 @@ class EventForm extends Component {
     }
   }
 
+  // On form submit, updates an existing event or creates an event.
   onFormSubmit = (event) => {
     event.preventDefault();
+    // Checks if the event has an id
     if (this.state.event.id) {
+      // Since it has an id, it is an existing event and it should be updated
       this.props.updateEvent(this.state.event);
     } else {
+      // Create a new event
       this.props.createEvent(this.state.event);
     }
   }
 
+  // Updates the state based on the input that is being changed
   onInputChange = (event) => {
+    // grabs the current event in the state and stores it into a newEvent object
     const newEvent = { ...this.state.event };
+    // Updates the property in the object
     newEvent[event.target.name] = event.target.value;
+    // Sets the states to reflect the input changes
     this.setState({
       event: newEvent
     });

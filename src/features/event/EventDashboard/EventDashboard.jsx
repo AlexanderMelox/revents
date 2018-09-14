@@ -127,6 +127,19 @@ class EventDashboard extends Component {
   }
 
   /**
+   * Deletes an event
+   * @param {string} eventId - The Id of a current event 
+   */ 
+  handleDeleteEvent = (eventId) => () => {
+    // Creates a new array with all the events that dont match the eventId passed in
+    const updatedEvents = this.state.events.filter(event => event.id !== eventId);
+    // Sets the state with the new array of updated events
+    this.setState({
+      events: updatedEvents
+    });
+  }
+
+  /**
    * Opens an existing event on the EventForm and sets
    * the selectedEvent to the event that was clicked on
    * @param {Object} eventToOpen - An object with the event to open
@@ -145,12 +158,25 @@ class EventDashboard extends Component {
     return (
       <Grid>
         <Column width={10}>
-          <EventList onEventOpen={this.handleOpenEvent} events={this.state.events} />
+          <EventList 
+            deleteEvent={this.handleDeleteEvent} 
+            onEventOpen={this.handleOpenEvent} 
+            events={this.state.events} 
+          />
         </Column>
         <Column width={6}>
-          <Button onClick={this.handleFormOpen} positive content="Create Event" />
+          <Button 
+            onClick={this.handleFormOpen} 
+            positive 
+            content="Create Event" 
+          />
           {this.state.isOpen && (
-            <EventForm updateEvent={this.handleUpdateEvent} selectedEvent={selectedEvent} createEvent={this.handleCreateEvent} handleCancel={this.handleCancel} />
+            <EventForm 
+              updateEvent={this.handleUpdateEvent} 
+              selectedEvent={selectedEvent} 
+              createEvent={this.handleCreateEvent} 
+              handleCancel={this.handleCancel} 
+            />
           )}
         </Column>
       </Grid>
