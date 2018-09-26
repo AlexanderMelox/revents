@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from '../reducers/rootReducer';
 
 export const configureStore = (initialState) => {
+  // Array of middlewares
   const middlewares = [];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
