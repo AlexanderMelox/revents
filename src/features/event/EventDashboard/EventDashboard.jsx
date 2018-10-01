@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import cuid from 'cuid';
 import EventList from '../EventList/EventList';
 import EventForm from '../EventForm/EventForm';
+import { createEvent, updateEvent, deleteEvent } from '../eventActions';
 const { Column } = Grid;
 
 class EventDashboard extends Component {
@@ -43,11 +44,9 @@ class EventDashboard extends Component {
     newEvent.id = cuid();
     // Sets the photo URL for the host of the event.
     newEvent.hostPhotoURL = '/assets/user.png';
-    // Updates the new array of events and adds the newEvent
-    const updatedEvents = [...this.state.events, newEvent];
+    this.props.createEvent(newEvent);
     // Updates the component state to update the events array and closes the EventForm
     this.setState({
-      events: updatedEvents,
       isOpen: false
     });
   }
@@ -57,18 +56,9 @@ class EventDashboard extends Component {
    * @param {Object} updatedEvent - Updated event object
    */
   handleUpdateEvent = (updatedEvent) => {
+    this.props.updateEvent(updatedEvent);
     // Sets the state to update the event that was currently edited.
     this.setState({
-      events: this.state.events.map(event => {
-        // Checks if the id is the same as the updatedEvent id
-        if (event.id === updatedEvent.id) {
-          // Returns the updated event
-          return { ...updatedEvent }
-        } else {
-          // Return the unedited event
-          return event;
-        }
-      }),
       isOpen: false,
       selectedEvent: null
     });
@@ -79,12 +69,7 @@ class EventDashboard extends Component {
    * @param {string} eventId - The Id of a current event 
    */ 
   handleDeleteEvent = (eventId) => () => {
-    // Creates a new array with all the events that dont match the eventId passed in
-    const updatedEvents = this.state.events.filter(event => event.id !== eventId);
-    // Sets the state with the new array of updated events
-    this.setState({
-      events: updatedEvents
-    });
+    this.props.deleteEvent(eventId);
   }
 
   /**
@@ -138,4 +123,11 @@ const mapStateToProps = (state) => ({
   events: state.events
 });
 
-export default connect(mapStateToProps)(EventDashboard);
+// Adds the actions to the components props
+const actions = {
+  createEvent,
+  deleteEvent,
+  updateEvent
+};
+
+export default connect(mapStateToProps, actions)(EventDashboard);
