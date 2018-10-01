@@ -57,18 +57,20 @@ const eventReducer = (state = initialState, action) => {
     case CREATE_EVENT:
       return [
         ...state, 
-       payload.event
+        action.payload.event
       ];
     case UPDATE_EVENT: 
       return [
-        ...state.filter(event => event.id !== payload.event.id),
-        payload.event
+        ...state.filter(event => event.id !== action.payload.event.id),
+        action.payload.event
       ];
     case DELETE_EVENT:
       return [
-        ...state.filter(event => event.id !== payload.eventId)
+        ...state.filter(event => event.id !== action.payload.eventId)
       ];
     default: 
       return state;
   } 
 }
+
+export default eventReducer;
