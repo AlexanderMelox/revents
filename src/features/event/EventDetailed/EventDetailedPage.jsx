@@ -1,36 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import EventDetailedHeader from './EventDetailedHeader';
 import EventDetailedInfo from './EventDetailedInfo';
 import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 
-const event = {
-  id: '1',
-  title: 'Trip to Tower of London',
-  date: '2018-03-27',
-  category: 'culture',
-  description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-  city: 'London, UK',
-  venue: "Tower of London, St Katharine's & Wapping, London",
-  hostedBy: 'Bob',
-  hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
-  attendees: [
-    {
-      id: 'a',
-      name: 'Bob',
-      photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
-    },
-    {
-      id: 'b',
-      name: 'Tom',
-      photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
-    }
-  ]
-}
-
-const EventDetailedPage = () => {
+const EventDetailedPage = ({ event }) => {
   return (
     <Grid>
       <Grid.Column width={10}>
@@ -45,4 +21,23 @@ const EventDetailedPage = () => {
   )
 }
 
-export default EventDetailedPage;
+// gets the state from the redux store and ownProps stores all the component props
+const mapStateToProps = (state, ownProps) => {
+  // Gets the eventId from the params
+  const eventId = ownProps.match.params.id;
+
+  // Creates an empty event
+  let event = {};
+
+  // Checks if there is an eventId and if the redux state events is greter than 0
+  if (eventId && state.events.length > 0) {
+    // re assign the empty event to the event found inside the array
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+
+  return { 
+    event
+  }
+};
+
+export default connect(mapStateToProps)(EventDetailedPage);
