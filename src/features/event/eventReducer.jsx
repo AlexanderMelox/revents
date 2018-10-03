@@ -61,11 +61,14 @@ const eventReducer = (state = initialState, action) => {
       ];
     case UPDATE_EVENT: 
       return [
+        // returns all elements that is not the updated event
         ...state.filter(event => event.id !== action.payload.event.id),
+        // updates the event that matches the event id that needs to be updated
         action.payload.event
       ];
     case DELETE_EVENT:
       return [
+        // returns all elements that are not the event deleted
         ...state.filter(event => event.id !== action.payload.eventId)
       ];
     default: 
