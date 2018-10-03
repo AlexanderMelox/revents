@@ -1,42 +1,10 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
-
-// Empty event fields 
-const emptyEvent = {
-  title: '',
-  date: '',
-  city: '',
-  venue: '',
-  hostedBy: ''
-}
+import { connect } from 'react-redux';
 
 class EventForm extends Component {
   state = {
-    event: emptyEvent
-  }
-
-  componentDidMount() {
-    // checks if the selectedEvent object is not equal to null
-    if (this.props.selectedEvent !== null) {
-      // sets the state event to the selectedEvent
-      this.setState({
-        event: this.props.selectedEvent
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    /* 
-      If the props being passed down has changed then set the
-      current event in the state to the selectedEvent, if the
-      selectedEvent is null then defaults to the emptyEvent 
-      object
-    */
-    if (nextProps.selectedEvent !== this.props.selectedEvent) {
-      this.setState({
-        event: nextProps.selectedEvent || emptyEvent
-      });
-    }
+    event: {...this.props.event}
   }
 
   // On form submit, updates an existing event or creates an event.
@@ -100,4 +68,25 @@ class EventForm extends Component {
   }
 }
 
-export default EventForm;
+const mapStateToProps = (state, ownProps) => {
+  // Store the param from the route
+  const eventId = ownProps.match.params.id;
+
+  let event = {
+    title: '',
+    date: '',
+    city: '',
+    venue: '',
+    hostedBy: ''
+  }
+
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+
+  return {
+    event
+  }
+}
+
+export default connect(mapStateToProps)(EventForm);
