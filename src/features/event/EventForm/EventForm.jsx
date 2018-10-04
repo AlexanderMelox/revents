@@ -5,7 +5,7 @@ import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan 
 import { connect } from 'react-redux';
 import cuid from 'cuid';
 import { createEvent, updateEvent } from '../eventActions';
-import { TextInput, TextArea, SelectInput } from '../../../app/common/form';
+import { TextInput, TextArea, SelectInput, DateInput } from '../../../app/common/form';
 
 const category = [
   {key: 'drinks', text: 'Drinks', value: 'drinks'},
@@ -89,8 +89,11 @@ class EventForm extends Component {
               <Field 
                 name='date' 
                 type='text' 
-                component={TextInput} 
-                placeholder='Event Date'/>
+                component={DateInput} 
+                placeholder='Date and time of event'
+                dateFormat='YYYY/MM/DD HH:mm'
+                time='HH:mm'
+                showTimeSelect/>
               <Button disabled={invalid || submitting || pristine} positive type="submit">
                 Submit
               </Button>
