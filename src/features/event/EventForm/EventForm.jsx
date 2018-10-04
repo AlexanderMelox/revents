@@ -1,35 +1,48 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
+import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
 import { connect } from 'react-redux';
 import cuid from 'cuid';
 import { createEvent, updateEvent } from '../eventActions';
 import { TextInput, TextArea, SelectInput } from '../../../app/common/form';
 
 const category = [
-    {key: 'drinks', text: 'Drinks', value: 'drinks'},
-    {key: 'culture', text: 'Culture', value: 'culture'},
-    {key: 'film', text: 'Film', value: 'film'},
-    {key: 'food', text: 'Food', value: 'food'},
-    {key: 'music', text: 'Music', value: 'music'},
-    {key: 'travel', text: 'Travel', value: 'travel'},
+  {key: 'drinks', text: 'Drinks', value: 'drinks'},
+  {key: 'culture', text: 'Culture', value: 'culture'},
+  {key: 'film', text: 'Film', value: 'film'},
+  {key: 'food', text: 'Food', value: 'food'},
+  {key: 'music', text: 'Music', value: 'music'},
+  {key: 'travel', text: 'Travel', value: 'travel'},
 ];
+
+// Form validation
+const validate = combineValidators({
+  title: isRequired({ message: 'The event title is required' }),
+  category: isRequired({ message: 'Please provide a category' }),
+  description: composeValidators(
+    isRequired({ message: 'Please enter a description' }),
+    hasLengthGreaterThan(4)({ message: 'Description needs to be atleast 5 cahracters' })
+  )(),
+  city: isRequired('city'),
+  venue: isRequired('venue')
+});
 
 class EventForm extends Component {
   // On form submit, updates an existing event or creates an event.
-  onFormSubmit = (event) => {
-    event.preventDefault();
+  onFormSubmit = (values) => {
     // Checks if the event has an id
-    if (this.state.event.id) {
+    if (this.props.initialValues.id) {
       // Since it has an id, it is an existing event and it should be updated
-      this.props.updateEvent(this.state.event);
+      this.props.updateEvent(values);
       this.props.history.goBack();
     } else {
       // Create a new event
       const newEvent = {
-        ...this.state.event,
+        ...values,
         id: cuid(),
-        hostPhotoURL: '/assets/user.png'
+        hostPhotoURL: '/assets/user.png',
+        hostedBy: 'Bob'
       }
       this.props.createEvent(newEvent);
       // Redirect to /events
@@ -38,12 +51,13 @@ class EventForm extends Component {
   }
 
   render() {
+    const { invalid, submitting, pristine } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
           <Segment>
             <Header sub color='teal' content='Event Details' />
-            <Form onSubmit={this.onFormSubmit}>
+            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
               <Field 
                 name='title' 
                 type='text' 
@@ -77,10 +91,12 @@ class EventForm extends Component {
                 type='text' 
                 component={TextInput} 
                 placeholder='Event Date'/>
-              <Button positive type="submit">
+              <Button disabled={invalid || submitting || pristine} positive type="submit">
                 Submit
               </Button>
-              <Button onClick={this.props.history.goBack} type="button">Cancel</Button>
+              <Button onClick={() => this.props.history.push('/events')} type="button">
+                Cancel
+              </Button>
             </Form>
           </Segment>
         </Grid.Column>
@@ -93,20 +109,14 @@ const mapStateToProps = (state, ownProps) => {
   // Store the param from the route
   const eventId = ownProps.match.params.id;
 
-  let event = {
-    title: '',
-    date: '',
-    city: '',
-    venue: '',
-    hostedBy: ''
-  }
+  let event = {};
 
   if (eventId && state.events.length > 0) {
     event = state.events.filter(event => event.id === eventId)[0];
   }
 
   return {
-    event
+    initialValues: event
   }
 }
 
@@ -115,4 +125,6 @@ const actions = {
   updateEvent
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({ form: 'eventForm' })(EventForm));
+export default connect(mapStateToProps, actions)(
+  reduxForm({ form: 'eventForm', enableReinitialize: true, validate })(EventForm)
+);
