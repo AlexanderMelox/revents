@@ -6,8 +6,9 @@ import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan 
 import { connect } from 'react-redux';
 import cuid from 'cuid';
 import { createEvent, updateEvent } from '../eventActions';
-import { TextInput, TextArea, SelectInput, DateInput } from '../../../app/common/form';
+import { TextInput, TextArea, SelectInput, DateInput, PlaceInput } from '../../../app/common/form';
 
+// array containing the options for categories
 const category = [
   {key: 'drinks', text: 'Drinks', value: 'drinks'},
   {key: 'culture', text: 'Culture', value: 'culture'},
@@ -33,11 +34,14 @@ const validate = combineValidators({
 class EventForm extends Component {
   // On form submit, updates an existing event or creates an event.
   onFormSubmit = (values) => {
+    // changes the format of the date
     values.date = moment(values.date).format();
+
     // Checks if the event has an id
     if (this.props.initialValues.id) {
       // Since it has an id, it is an existing event and it should be updated
       this.props.updateEvent(values);
+      // Takes the user back to the detailed event
       this.props.history.goBack();
     } else {
       // Create a new event
@@ -82,12 +86,14 @@ class EventForm extends Component {
               <Field 
                 name='city' 
                 type='text' 
-                component={TextInput} 
+                component={PlaceInput} 
+                options={{ types: ['(cities)'] }}
                 placeholder='Event City'/>
               <Field 
                 name='venue' 
                 type='text' 
-                component={TextInput} 
+                component={PlaceInput} 
+                options={{ types: ['establishment'] }}
                 placeholder='Event Venue'/>
               <Field 
                 name='date' 
