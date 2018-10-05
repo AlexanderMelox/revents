@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
+import moment from 'moment';
 import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
 import { connect } from 'react-redux';
 import cuid from 'cuid';
@@ -25,12 +26,14 @@ const validate = combineValidators({
     hasLengthGreaterThan(4)({ message: 'Description needs to be atleast 5 cahracters' })
   )(),
   city: isRequired('city'),
-  venue: isRequired('venue')
+  venue: isRequired('venue'),
+  date: isRequired('date')
 });
 
 class EventForm extends Component {
   // On form submit, updates an existing event or creates an event.
   onFormSubmit = (values) => {
+    values.date = moment(values.date).format();
     // Checks if the event has an id
     if (this.props.initialValues.id) {
       // Since it has an id, it is an existing event and it should be updated
@@ -91,7 +94,7 @@ class EventForm extends Component {
                 type='text' 
                 component={DateInput} 
                 placeholder='Date and time of event'
-                dateFormat='YYYY/MM/DD HH:mm'
+                dateFormat='YYYY-MM-DD HH:mm'
                 time='HH:mm'
                 showTimeSelect/>
               <Button disabled={invalid || submitting || pristine} positive type="submit">
