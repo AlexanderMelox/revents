@@ -46,6 +46,7 @@ class EventForm extends Component {
     this.setState({ scriptLoaded: true });
   }
 
+  // gets the selectedCity once the user clicks a city
   handleCitySelect = (selectedCity) => {
     geocodeByAddress(selectedCity)
       .then(results => getLatLng(results[0]))
@@ -59,11 +60,25 @@ class EventForm extends Component {
       })
   }
 
+  handleVenueSelect = (selectedVenue) => {
+    geocodeByAddress(selectedVenue)
+      .then(results => getLatLng(results[0]))
+      .then(latlng => {
+        this.setState({ 
+          venueLatLng: latlng
+        });
+      })
+      .then(() => {
+        this.props.change('venue', selectedVenue)
+      })
+  }
+
   // On form submit, updates an existing event or creates an event.
   onFormSubmit = (values) => {
     // changes the format of the date
     values.date = moment(values.date).format();
-
+    values.venueLatLng = this.state.venueLatLng;
+    
     // Checks if the event has an id
     if (this.props.initialValues.id) {
       // Since it has an id, it is an existing event and it should be updated
@@ -131,7 +146,8 @@ class EventForm extends Component {
                     radius: 1000,
                     types: ['establishment'] 
                   }}
-                  placeholder='Event Venue'/>
+                  placeholder='Event Venue'
+                  onSelect={this.handleVenueSelect}/>
               )}
               <Field 
                 name='date' 
