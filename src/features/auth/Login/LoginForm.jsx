@@ -7,7 +7,7 @@ import { TextInput } from '../../../app/common/form';
 
 const LoginForm = ({ login, handleSubmit }) => {
   return (
-    <Form error size="large" onSubmit={handleSubmit(login)}>
+    <Form error size="large" id="loginForm" onSubmit={handleSubmit(login)}>
       <Segment>
         <Field
           name="email"
@@ -21,7 +21,7 @@ const LoginForm = ({ login, handleSubmit }) => {
           type="password"
           placeholder="Password"
         />
-        <Button onClick={login} fluid size="large" color="teal">
+        <Button fluid size="large" color="teal">
           Login
         </Button>
       </Segment>

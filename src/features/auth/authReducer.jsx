@@ -19,7 +19,9 @@ const authReducer = (state = initialState, action) => {
         currentUser: {}
       }
     default:
-      return state;
+      return {
+        ...state
+      };
   }
 }
 
