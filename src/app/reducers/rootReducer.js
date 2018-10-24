@@ -11,15 +11,15 @@ import { asyncReducer } from '../../features/async/asyncReducer';
 
 
 const rootReducer = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
   form: FormReducer,
   test: testReducer,
   events: eventReducer,
   modals: modalReducer,
   auth: authReducer,
   async: asyncReducer,
-  toastr: toastrReducer,
-  firebase: firebaseReducer,
-  firestore: firestoreReducer
+  toastr: toastrReducer
 });
 
 export default rootReducer; 

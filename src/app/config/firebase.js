@@ -7,10 +7,14 @@ const firebaseConfig = {
   databaseURL: "https://radiant-raceway-218517.firebaseio.com",
   projectId: "radiant-raceway-218517",
   storageBucket: "",
-  messagingSenderId: "1088475796962"
+  messagingSenderId: "1088475796962",
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+const firestore = firebase.firestore();
+const settings = {
+  timestampsInSnapshots: true
+}
+firestore.settings(settings);
 
 export default firebase;

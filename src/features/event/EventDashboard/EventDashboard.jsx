@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { firebaseConnect, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
 import EventList from '../EventList/EventList';
 import { deleteEvent } from '../eventActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
