@@ -11,7 +11,6 @@ const styles = {
     marginBottom: '1.25rem'
   }
 }
-
 const LoginForm = ({ login, handleSubmit, error }) => {
   return (
     <Form size="large" id="loginForm" onSubmit={handleSubmit(login)}>
