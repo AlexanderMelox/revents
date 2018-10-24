@@ -1,10 +1,20 @@
-import { LOGIN_USER, SIGN_OUT_USER } from './authConstants';
+import { SubmissionError } from 'redux-form'
+import { SIGN_OUT_USER } from './authConstants';
 import { closeModal } from '../modals/modalActions';
 
 export const login = (credentials) => {
-  return dispatch => {
-    dispatch({ type: LOGIN_USER, payload: {credentials} });
-    dispatch(closeModal());
+  return async (dispatch, getState, { getFirebase }) => {
+    // Gets access to all the firebase methods
+    const firebase = getFirebase();
+    try {
+      await firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password )
+      dispatch(closeModal());
+    } catch(error) {
+      console.log(error);
+      throw new SubmissionError({
+        _error: 'Email or Password is incorrect'
+      });
+    }
   }
 }
 
