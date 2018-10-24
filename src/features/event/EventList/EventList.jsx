@@ -8,7 +8,7 @@ class EventList extends Component {
     return (
       <div>
         {/* Loops through the array of events and creates an EventListItem component for each*/}
-        {events.map((event) => (
+        {events && events.map((event) => (
           <EventListItem 
             deleteEvent={deleteEvent}
             key={event.id} 

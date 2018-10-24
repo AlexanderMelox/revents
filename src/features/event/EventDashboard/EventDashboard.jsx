@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { firebaseConnect, firestoreConnect } from 'react-redux-firebase'
 import EventList from '../EventList/EventList';
 import { deleteEvent } from '../eventActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
@@ -38,7 +39,7 @@ class EventDashboard extends Component {
 
 // Maps the redux state to the component props
 const mapStateToProps = (state) => ({
-  events: state.events,
+  events: state.firestore.ordered.events,
   loading: state.async.loading
 });
 
@@ -47,4 +48,6 @@ const actions = {
   deleteEvent
 };
 
-export default connect(mapStateToProps, actions)(EventDashboard);
+export default connect(mapStateToProps, actions)(
+  firestoreConnect([{ collection: 'events' }])(EventDashboard)
+); 
