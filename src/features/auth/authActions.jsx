@@ -20,7 +20,7 @@ export const login = (credentials) => {
 export const registerUser = (user) => {
   return async (dispatch, getState, { getFirebase,  getFirestore }) => {
     const firebase = getFirebase();
-    const firestore = getFireStore();
+    const firestore = getFirestore();
     try {
       // create the user in auth
       let createdUser = await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
