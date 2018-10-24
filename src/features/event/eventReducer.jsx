@@ -1,4 +1,4 @@
-import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from './eventConstants';
+import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT, FETCH_EVENTS } from './eventConstants';
 
 // Mock data for events
 const initialState = [];
@@ -22,6 +22,8 @@ const eventReducer = (state = initialState, action) => {
         // returns all elements that are not the event deleted
         ...state.filter(event => event.id !== action.payload.eventId)
       ];
+    case FETCH_EVENTS:
+      return action.payload.events
     default: 
       return state;
   } 

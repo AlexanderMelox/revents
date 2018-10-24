@@ -1,18 +1,18 @@
 import { ASYNC_ACTION_START, ASYNC_ACTION_FINISH, ASYNC_ACTION_ERROR } from './asyncConstants';
 
-const asyncActionStart = () => {
+export const asyncActionStart = () => {
   return {
-    type: ASYN_ACTION_START
+    type: ASYNC_ACTION_START
   }
 }
 
-const asyncActionFinish = () => {
+export const asyncActionFinish = () => {
   return {
     type: ASYNC_ACTION_FINISH
   }
 }
 
-const asyncActionError = () => {
+export const asyncActionError = () => {
   return {
     type: ASYNC_ACTION_ERROR
   }
