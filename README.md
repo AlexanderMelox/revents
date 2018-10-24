@@ -1,1 +1,2 @@
-AIzaSyAc1mQTK6dJM7RtPafrXUelIaUvPop5_y4
+# Revents
+An app to post events.
