@@ -1,12 +1,14 @@
 import React from 'react';
 import { Form, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { TextInput } from '../../../app/common/form';
+import { registerUser } from '../authActions';
 
-const RegisterForm = () => {
+const RegisterForm = ({ handleSubmit, registerUser }) => {
   return (
     <div>
-      <Form size="large">
+      <Form size="large" onSubmit={handleSubmit(registerUser)}>
         {/* {error && <Label style={styles.errorStyles} basic color='red'>{error}</Label>} */}
         <Field
           name="displayName"
@@ -37,4 +39,10 @@ const RegisterForm = () => {
   );
 };
 
-export default reduxForm({ form: 'registerForm' })(RegisterForm);
+const actions = {
+  registerUser
+}
+
+export default connect(null, actions)(
+  reduxForm({ form: 'registerForm' })(RegisterForm)
+);
