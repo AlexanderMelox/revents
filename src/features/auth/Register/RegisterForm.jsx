@@ -1,10 +1,11 @@
 import React from 'react';
-import { Form, Button, Label } from 'semantic-ui-react';
+import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { combineValidators, isRequired } from 'revalidate';
 import { TextInput } from '../../../app/common/form';
 import { registerUser } from '../authActions';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const validate = combineValidators({
   displayName: isRequired('Display name'),
@@ -48,6 +49,10 @@ const RegisterForm = ({ handleSubmit, registerUser, error, invalid, submitting }
         <Button disabled={invalid || submitting} fluid size="large" color="teal">
           Register
         </Button>
+        <Divider horizontal>
+          Or
+        </Divider>
+        <SocialLogin />
       </Form>
     </div>
   );
