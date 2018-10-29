@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { login } from '../../auth/authActions';
+import { login, socialLogin } from '../../auth/authActions';
 import { TextInput } from '../../../app/common/form';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
@@ -13,7 +13,7 @@ const styles = {
   }
 }
 
-const LoginForm = ({ login, handleSubmit, error }) => {
+const LoginForm = ({ login, handleSubmit, error, socialLogin }) => {
   return (
     <Form size="large" id="loginForm" onSubmit={handleSubmit(login)}>
       {error && <Label style={styles.errorStyles} basic color='red'>{error}</Label>}
@@ -37,13 +37,14 @@ const LoginForm = ({ login, handleSubmit, error }) => {
       <Divider horizontal>
         Or
       </Divider>
-      <SocialLogin />
+      <SocialLogin socialLogin={socialLogin} />
     </Form>
   );
 }
 
 const actions = {
-  login
+  login,
+  socialLogin
 }
 
 export default connect(null, actions)(
