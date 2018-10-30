@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/firestore';
 
+// Firebase configurations
 const firebaseConfig = {
   apiKey: "AIzaSyDGBD8x4SRA-ff7W08VTU-1BadX_qzStig",
   authDomain: "radiant-raceway-218517.firebaseapp.com",
@@ -10,6 +11,7 @@ const firebaseConfig = {
   messagingSenderId: "1088475796962",
 };
 
+// Initialiazes firebase app with configurations
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const settings = {
