@@ -9,7 +9,8 @@ import firebase from '../config/firebase';
 const reactReduxFirebaseConfig = {
   userProfile: 'users',
   attachAuthIsReady: true,
-  useFirestoreForProfile: true
+  useFirestoreForProfile: true,
+  updateProfileOnLogin: false
 }
 
 export const configureStore = (initialState) => {
