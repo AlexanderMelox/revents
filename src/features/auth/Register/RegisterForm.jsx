@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { combineValidators, isRequired } from 'revalidate';
 import { TextInput } from '../../../app/common/form';
-import { registerUser } from '../authActions';
+import { registerUser, socialLogin } from '../authActions';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const validate = combineValidators({
@@ -20,7 +20,7 @@ const styles = {
   }
 }
 
-const RegisterForm = ({ handleSubmit, registerUser, error, invalid, submitting }) => {
+const RegisterForm = ({ handleSubmit, registerUser, error, invalid, submitting, socialLogin }) => {
   return (
     <div>
       <Form size="large" onSubmit={handleSubmit(registerUser)}>
@@ -52,14 +52,15 @@ const RegisterForm = ({ handleSubmit, registerUser, error, invalid, submitting }
         <Divider horizontal>
           Or
         </Divider>
-        <SocialLogin />
+        <SocialLogin socialLogin={socialLogin} />
       </Form>
     </div>
   );
 };
 
 const actions = {
-  registerUser
+  registerUser,
+  socialLogin
 }
 
 export default connect(null, actions)(
