@@ -2,24 +2,24 @@ import React from 'react';
 import { Segment, Header, Form, Divider, Label, Button, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { combineValidators, matchesField, isRequired, composeValidators } from 'revalidate';
-import TextInput from '../../../app/common/form/TextInput';
+import { TextInput } from '../../../app/common/form';
 
 const validate = combineValidators({
-  newPassword1: isRequired({ message: 'Please enter a password'}),
+  newPassword1: isRequired({message: 'Please enter a password'}),
   newPassword2: composeValidators(
-    isRequired({ message: 'Please confirm your new password' }),
-    matchesField('newPassword1')({ message: 'Passwords do not match' })
+    isRequired({message: 'Please confirm your new password'}),
+    matchesField('newPassword1')({message: 'Passwords do not match'})
   )()
-});
+})
 
-const AccountPage = ({ error, invalid, submitting }) => {
+const AccountPage = ({ error, invalid, submitting, handleSubmit, updatePassword }) => {
   return (
     <Segment>
       <Header dividing size="large" content="Account" />
       <div>
         <Header color="teal" sub content="Change password" />
         <p>Use this form to update your account settings</p>
-        <Form>
+        <Form onSubmit={handleSubmit(updatePassword)}>
           <Field
             width={8}
             name="newPassword1"
