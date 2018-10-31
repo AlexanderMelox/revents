@@ -39,6 +39,9 @@ if (module.hot) {
   });
 }
 
-render();
+// Render only if firebase auth is ready
+store.firebaseAuthIsReady.then(() => {
+  render();
+});
 
 registerServiceWorker();
