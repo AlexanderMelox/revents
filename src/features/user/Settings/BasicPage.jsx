@@ -6,11 +6,11 @@ import { DateInput, PlaceInput, TextInput, RadioInput } from '../../../app/commo
 
 class BasicPage extends Component {
   render() {
-    const {pristine, submitting} = this.props;
+    const {pristine, submitting, handleSubmit, updateProfile} = this.props;
     return (
       <Segment>
         <Header dividing size='large' content='Basics' />
-        <Form>
+        <Form onSubmit={handleSubmit(updateProfile)}>
           <Field
             width={8}
             name='displayName'
@@ -42,11 +42,11 @@ class BasicPage extends Component {
               component={RadioInput}
             />
           </Form.Group>
-          <Field
-            width={8}
-            name='dateOfBirth'
-            component={DateInput}
-            placeholder='Date of Birth'
+          <Field 
+            width={8} 
+            name="dateOfBirth" 
+            component={DateInput} 
+            placeholder="Date of Birth" 
             dateFormat='YYYY-MM-DD'
             showYearDropdown={true}
             showMonthDropdown={true}
@@ -69,4 +69,4 @@ class BasicPage extends Component {
   }
 }
 
-export default reduxForm({form: 'userProfile', enableReinitialize: true})(BasicPage);
+export default reduxForm({ form: 'userProfile', enableReinitialize: true, destroyOnUnmount: false })(BasicPage);
