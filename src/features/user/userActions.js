@@ -1,11 +1,11 @@
 import moment from 'moment';
 import { toastr } from 'react-redux-toastr';
 
-export const updateProfile = (updatedUser) => {
+export const updateProfile = (user) => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-
-    if (updatedUser.dateOfBirth && updatedUser.dateOfBirth._isAMomentObject) {
+    const { isLoaded, isEmpty, ...updatedUser } = user;
+    if (updatedUser.dateOfBirth !== getState().firebase.profile.dateOfBirth) {
       updatedUser.dateOfBirth = moment(updatedUser.dateOfBirth).toDate()
     }
 

@@ -16,6 +16,7 @@ const DateInput = ({input: {value, onChange, onBlur, ...restInput}, width, place
         placeholderText={placeholder}
         selected={value ? moment(value) : null}
         onChange={onChange}
+        onBlur={() => onBlur()}
         {...restInput}
       />
       {touched && error && <Label basic color='red'>{error}</Label>}
