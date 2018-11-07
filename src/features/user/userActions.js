@@ -7,7 +7,6 @@ export const updateProfile = (updatedUser) => {
 
     if (updatedUser.dateOfBirth && updatedUser.dateOfBirth._isAMomentObject) {
       updatedUser.dateOfBirth = moment(updatedUser.dateOfBirth).toDate()
-      // console.log(moment(updatedUser.dateOfBirth).toDate());
     }
 
     try {
