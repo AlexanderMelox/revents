@@ -7,7 +7,7 @@ const firebaseConfig = {
   authDomain: "radiant-raceway-218517.firebaseapp.com",
   databaseURL: "https://radiant-raceway-218517.firebaseio.com",
   projectId: "radiant-raceway-218517",
-  storageBucket: "",
+  storageBucket: "radiant-raceway-218517.appspot.com",
   messagingSenderId: "1088475796962",
 };
 
