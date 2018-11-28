@@ -4,13 +4,14 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 
-const DateInput = ({input: {value, onChange, onBlur, ...restInput}, width, placeholder, meta: {touched, error}, ...rest}) => {
+const DateInput = ({input: {value, onChange, onBlur, ...restInput}, width, label, placeholder, meta: {touched, error}, ...rest}) => {
   if (value) {
     value = moment(value, 'X')
   }
 
   return (
     <Form.Field error={touched && !!error} width={width}>
+      {label && <label>{label}</label>}
       <DatePicker
         {...rest}
         placeholderText={placeholder}

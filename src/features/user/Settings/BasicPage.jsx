@@ -15,6 +15,7 @@ class BasicPage extends Component {
             width={8}
             name='displayName'
             type='text'
+            label="Display name"
             component={TextInput}
             placeholder='Known As'
           />
@@ -46,6 +47,7 @@ class BasicPage extends Component {
             width={8} 
             name="dateOfBirth" 
             component={DateInput} 
+            label="Date of birth"
             placeholder="Date of Birth" 
             dateFormat='YYYY-MM-DD'
             showYearDropdown={true}
@@ -57,7 +59,7 @@ class BasicPage extends Component {
             name='city'
             placeholder='Home Town'
             options={{types: ['(cities)']}}
-            label='Female'
+            label='Home town'
             component={PlaceInput}
             width={8}
           />
