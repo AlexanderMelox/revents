@@ -42,9 +42,9 @@ class PhotosPage extends Component {
           <Grid.Column width={4}>
             <Header color='teal' sub content='Step 1 - Add Photo'/>
             <Dropzone onDrop={this.onDrop} multiple={false}>
-              <div style={{ paddingTop: '30px', textAlign: 'center' }}>
+              <div style={{ padding: '30px', textAlign: 'center' }}>
                 <Icon name="upload" size="huge"/>
-                <Header content="Drop image here or click to add" />
+                <Header style={{  }} content="Drop image here or click to add" />
               </div>
             </Dropzone>
           </Grid.Column>
