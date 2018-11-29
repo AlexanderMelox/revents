@@ -30,9 +30,9 @@ export const uploadProfileImage = (file, fileName) => {
 
     try {
       // Upload the file to firebase storage
-      let uploadedFile = await firebase.uploadedFile(path, file, null, options);
+      let uploadedFile = await firebase.uploadFile(path, file, null, options);
       // Get the url of image
-      let downloadULR = await uploadedFile.uploadTaskSnapshot.downloadULR;
+      let downloadULR = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
       // get userDoc
       let userDoc = await firestore.get(`users/${user.uid}`);
       // check if user has a photo, if not updated profile with new image
