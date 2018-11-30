@@ -32,20 +32,21 @@ export const uploadProfileImage = (file, fileName) => {
       // Upload the file to firebase storage
       let uploadedFile = await firebase.uploadFile(path, file, null, options);
       // Get the url of image
-      let downloadULR = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
-      // get userDoc
-      let userDoc = await firestore.get(`users/${user.uid}`);
+      let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
+      // get userDocument
+      let userDocument = await firestore.get(`users/${user.uid}`);
       // check if user has a photo, if not updated profile with new image
-      if (!userDoc.data().photoURL) {
+      if (!userDocument.data().photoURL) {
         // Updates firestore documents
         await firebase.updateProfile({
-          photoURL: downloadULR
+          photoURL: downloadURL
         });
         // updates profile inside firebase authentication
         await user.updateProfile({
-          photoURL: downloadULR
+          photoURL: downloadURL
         });
       }
+
       // add the new photo to photos collection
       return await firestore.add({
         collection: 'users',
@@ -53,7 +54,7 @@ export const uploadProfileImage = (file, fileName) => {
         subcollections: [{ collection: 'photos' }]
       }, {
         name: fileName,
-        url: downloadULR
+        url: downloadURL
       });
     } catch (error) {
       console.log(error);
